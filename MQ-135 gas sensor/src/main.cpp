@@ -1,16 +1,5 @@
 #include <Arduino.h>
 
-int normalizedMinimalValue = 20;
-const int accuracy = 5;
-
-void setDungeourLevel(int &valueFromMq)
-{
-  for (size_t i = 1; i <= 5; i++)
-  {
-    digitalWrite(i + 1, valueFromMq - normalizedMinimalValue >= (i * accuracy));
-  }
-}
-
 void setup()
 {
   for (size_t pin = 2; pin <= 6; pin++)
