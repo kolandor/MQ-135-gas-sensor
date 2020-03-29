@@ -10,7 +10,9 @@ private:
 
     const int ACCURANCY = 5;
 
-    const size_t _checkIterationCount = 60;
+    const int ACCURANCY_SHIFT = 5;
+
+    const size_t _checkIterationCount = 120;
 
     void setDungeourLevel(const int &valueFromMq)
     {
@@ -20,12 +22,9 @@ private:
         }
     }
 
-    void setAllLEDs(const bool &state)
+    void setCalibrLED(const bool &state)
     {
-        for (size_t i = 1; i <= 5; i++)
-        {
-            digitalWrite(i + 1, state);
-        }
+        digitalWrite(5, state);
     }
 
 public:
@@ -43,6 +42,11 @@ public:
         setDungeourLevel(getSensorLevel());
     }
 
+    int getNorm()
+    {
+        return _normalizedMinimalValue;
+    }
+
     int getSensorLevel()
     {
         return analogRead(_analogPin);
@@ -50,18 +54,18 @@ public:
 
     void calibrateSensor()
     {
+        setCalibrLED(true);
+
         int sensorSum = 0;
 
         for (size_t i = 0; i < _checkIterationCount; i++)
         {
-            delay(300);
-            setAllLEDs(i % 2);
-            delay(300);
+            delay(1000);
             sensorSum += getSensorLevel();
         }
 
-        _normalizedMinimalValue = sensorSum / _checkIterationCount - ACCURANCY;
+        _normalizedMinimalValue = sensorSum / _checkIterationCount - ACCURANCY_SHIFT;
 
-        setAllLEDs(false);
+        setCalibrLED(false);
     }
 };

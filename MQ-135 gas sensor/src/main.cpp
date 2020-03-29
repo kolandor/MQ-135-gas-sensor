@@ -7,6 +7,9 @@ void setup()
 {
   Serial.begin(9600);
   sensor.calibrateSensor();
+  Serial.print("NORM = ");
+  Serial.print(sensor.getNorm());
+  Serial.print("\n");
 }
 
 void loop()
