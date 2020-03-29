@@ -1,22 +1,19 @@
 #include <Arduino.h>
+#include "MQSensor.h"
+
+MQSensor sensor(A0);
 
 void setup()
 {
-  for (size_t pin = 2; pin <= 6; pin++)
-  {
-    pinMode(pin, OUTPUT);
-  }
-
   Serial.begin(9600);
-
+  sensor.calibrateSensor();
 }
 
 void loop()
 {
   delay(600);
-  int sensorValue = analogRead(A0);
   Serial.print("sensor = ");
-  Serial.print(sensorValue);
+  Serial.print(sensor.getSensorLevel());
   Serial.print("\n");
-  setDungeourLevel(sensorValue);
+  sensor.displayDungeourLevel();
 }
